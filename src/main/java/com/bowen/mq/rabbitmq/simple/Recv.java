@@ -23,6 +23,7 @@ public class Recv {
 
 
         DeliverCallback deliverCallback = (consumerTag, deliver) ->{
+            String s = consumerTag;
             String message = new String(deliver.getBody(), "utf-8");
             System.out.println(" [x] Received-> " + message);
         };

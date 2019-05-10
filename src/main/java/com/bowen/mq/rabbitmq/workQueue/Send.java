@@ -2,6 +2,7 @@ package com.bowen.mq.rabbitmq.workQueue;
 
 import com.bowen.mq.rabbitmq.utils.RabbitmqHelper;
 import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.MessageProperties;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -13,7 +14,7 @@ import java.util.concurrent.TimeoutException;
 public class Send {
     private final static String QUEUE_NAME = "task_queue";
 
-    public static void main(String[] args) throws IOException, TimeoutException {
+    public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
 
         Channel channel = RabbitmqHelper.createChannel();
 
@@ -31,26 +32,18 @@ public class Send {
          * autoDelete: 不使用时是否自动删除
          * arguments：其它参数*/
         channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-        String[] messages = new String[]{"mess1", "mess2"};
-        String message = getMessage(messages);
-        channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-        System.out.println("[x] Sent ->" + message);
-
-    }
-
-    private static String getMessage(String[] strArr){
-        if(strArr.length < 1)
-            return "Hello World!";
-        return joinString(strArr, " ");
-    }
-
-    private static String joinString(String[] strArr, String delimiter) {
-        int length = strArr.length;
-        if (length == 0) return "";
-        StringBuilder words = new StringBuilder(strArr[0]);
-        for (int i = 1; i < length; i++) {
-            words.append(delimiter).append(strArr[i]);
+        String messages = "message";
+        for(int i = 0;i<10;i++){
+            channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, (i + messages).getBytes());
+            System.out.println("[x] Sent ->" + (i + messages));
+            //Thread.sleep(1000);
+            messages = joinString(messages, ".");
         }
-        return words.toString();
+        System.out.println("[x] Sent -> Done");
+    }
+
+    private static String joinString(String str, String delimiter){
+        StringBuilder word = new StringBuilder(str);
+        return word.append(delimiter).toString();
     }
 }

@@ -25,23 +25,18 @@ public class Recv {
 
         DeliverCallback deliverCallback = (consumerTag, deliver) ->{
             String message = new String(deliver.getBody(), "utf-8");
-            System.out.println(" [x] Received-> " + message);
-            try {
-                doWork(message);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println(" [x] Done");
+            System.out.println(" [x] 1111111111Received-> " + message);
+            channel.basicAck(deliver.getEnvelope().getDeliveryTag(), false);
+        };
+        DeliverCallback deliverCallback2 = (consumerTag, deliver) ->{
+            String message = new String(deliver.getBody(), "utf-8");
+            System.out.println(" [x] 22222222222Received-> " + message);
+            channel.basicAck(deliver.getEnvelope().getDeliveryTag(), false);
         };
 
-        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {});
-
+        channel.basicQos(0,2, false);
+        channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> {});
+        channel.basicConsume(QUEUE_NAME, false, deliverCallback2, consumerTag -> {});
     }
 
-    private static void doWork(String task) throws InterruptedException {
-        for(char ch : task.toCharArray()){
-            if (ch == '.') Thread.sleep(1000);
-        }
-
-    }
 }
