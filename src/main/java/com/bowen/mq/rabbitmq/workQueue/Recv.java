@@ -34,7 +34,7 @@ public class Recv {
             channel.basicAck(deliver.getEnvelope().getDeliveryTag(), false);
         };
 
-        channel.basicQos(0,2, false);
+        channel.basicQos(0,2, true);
         channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> {});
         channel.basicConsume(QUEUE_NAME, false, deliverCallback2, consumerTag -> {});
     }

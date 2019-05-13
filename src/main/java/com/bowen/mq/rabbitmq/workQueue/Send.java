@@ -33,7 +33,7 @@ public class Send {
          * arguments：其它参数*/
         channel.queueDeclare(QUEUE_NAME, true, false, false, null);
         String messages = "message";
-        for(int i = 0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, (i + messages).getBytes());
             System.out.println("[x] Sent ->" + (i + messages));
             //Thread.sleep(1000);
@@ -42,7 +42,7 @@ public class Send {
         System.out.println("[x] Sent -> Done");
     }
 
-    private static String joinString(String str, String delimiter){
+    private static String joinString(String str, String delimiter) {
         StringBuilder word = new StringBuilder(str);
         return word.append(delimiter).toString();
     }
