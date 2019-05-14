@@ -14,7 +14,7 @@ import java.util.concurrent.TimeoutException;
 public class Send {
     private final static String QUEUE_NAME = "task_queue";
 
-    public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
+    public static void main(String[] args) throws IOException, TimeoutException {
 
         Channel channel = RabbitmqHelper.createChannel();
 
