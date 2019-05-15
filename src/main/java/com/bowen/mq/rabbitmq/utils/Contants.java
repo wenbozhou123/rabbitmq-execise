@@ -7,4 +7,11 @@ package com.bowen.mq.rabbitmq.utils;
 public class Contants {
     public final static String hostname = "16.155.197.249";
 
+    public static class EXCHANEG_TYPES{
+        public final static String DIRECT = "direct";
+        public final static String TOPIC = "topic";
+        public final static String FANOUT = "fanout";
+        public final static String HEADER = "header";
+    }
+
 }
